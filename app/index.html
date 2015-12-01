@@ -13,8 +13,29 @@
     <body>
         
         <div class="container">
+            <h1>JS formLabel plugin</h1>
+            <p>A simple Javascript only (dependency-free) to add a toggle visibility effect for form input labels and  placeholders</p>
+            <h4>Options: </p>
+            <pre><code>
+            defaults = {
+                initClass: 'js-formlabel-plugin',
+                callbackBefore: function () {
+                },
+                callbackAfter: function () {
+                },
+                scope: document,
+                selector: 'input[type="text"], input[type="email"]',
+                focusColor: '#0eaee8',
+                textColor: '#ffffff',
+                speed: '.3',
+                customStyles: false,
+                height: '25px',
+                focusClass: 'js-formlabel-plugin-focus',
+                blurClass: 'js-formlabel-plugin-blur'
+            }
+            </code></pre>
             <form class="form">
-              <h1>JS formLabel plugin</h1>
+              <h2>JS formLabel plugin</h2>
               <label for="text1">Text 1</label>
               <input type="text" name="text 1" id="text1" value="" placeholder="Text 1 placeholder"><br>
               <label for="text2">Text 2</label>

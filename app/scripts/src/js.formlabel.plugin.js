@@ -193,6 +193,7 @@
 		if (el.classList.contains(settings.focusClass)) {
 			if (!settings.customStyles) {
 				label.style.transform = "translateY(100%)";
+				label.style.transition = (settings.speed / 2) + 's';
 				// label.style.opacity = '0';
 				// label.style.transition = 'transform ' + (settings.speed / 4) + 's' + ', opacity ' + (settings.speed / 2) +'s';
 				//label.style.maxHeight = '0';
