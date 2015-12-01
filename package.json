@@ -1,7 +1,7 @@
 {
-  "name": "YourProject",
+  "name": "js.formlabel.plugin",
   "version": "0.0.1",
-  "description": "Description of your project",
+  "description": "JS no dependencies plugin for form input label effect",
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.5.3",
