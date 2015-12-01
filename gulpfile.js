@@ -47,13 +47,17 @@ gulp.task('images-deploy', function() {
 //compiling our Javascripts
 gulp.task('scripts', function() {
     //this is where our dev JS scripts are
-    return gulp.src(['app/scripts/src/_includes/**/*.js', 'app/scripts/src/**/*.js'])
+    return gulp.src(['app/scripts/src/_includes/**/*.js', 'app/scripts/src/**/*.js', 'app/scripts/src/*.js'])
+                //get sourceMaps ready
+                .pipe(sourceMaps.init())
                 //this is the filename of the compressed version of our JS
                .pipe(concat('app.js'))
                //catch errors
                .on('error', gutil.log)
                //compress :D
-               .pipe(uglify())
+               //.pipe(uglify())
+               //get our sources via sourceMaps
+                .pipe(sourceMaps.write())
                //where we will store our finalized, compressed script
                .pipe(gulp.dest('app/scripts'))
                //notify browserSync to refresh

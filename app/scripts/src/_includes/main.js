@@ -9,7 +9,12 @@
 (function () {
 
     document.addEventListener("DOMContentLoaded", function() {
-        console.log('document is loaded');
+
+        var settings = {initClass: 'something-else'},
+            plugin = new JSformLabel();
+
+        plugin.init(settings);
+
     });
 
 })();
