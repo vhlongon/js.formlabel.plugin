@@ -42,3 +42,6 @@ jsFormLabel.init(settings);
 
 
 
+### Compatibility
+
+IE 10+, Chrome 1+, Safari 3.2+, FF 4+ and Opera 12+
