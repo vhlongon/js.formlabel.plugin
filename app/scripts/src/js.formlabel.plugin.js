@@ -25,9 +25,17 @@
 			callbackAfter: function () {
 			},
 			scope: document,
-			selector: 'input',
+			selector: 'input[type="text"], input[type="email"]',
 			focusColor: "#0eaee8",
-			blurColor: "#a3a2a0"
+			blurColor: "#a3a2a0",
+			textColor: '#ffffff',
+			delay: '0',
+			speed: '.3',
+			easing: 'ease',
+			customStyles: false,
+			height: '25px',
+			focusClass: 'js-formlabel-plugin-focus',
+			blurClass: 'js-formlabel-plugin-blur'
 		},
 		settings; //settings object result from merging default and options (given at initialization) objects 
 
@@ -113,34 +121,94 @@
 	 * @param {Array|Object|NodeList} scope Object/NodeList/Array that forEach is iterating over (aka `this`)
 	 */
 	var hideLabels = function (selector, parent) {
-		var elements = document.querySelectorAll(selector);
+		var elements = document.querySelectorAll(selector),
+			scope = parent || document;
+
 		forEach(elements, function(e,i){
 			// get label and placeholder for the input
 			var label = getLabel(e),
 				placeholder = e.getAttribute('placeholder'); 
 
+			// display all labels as block
+			if(label !== undefined) {label.style.display = 'block'; }
+
 			// hide the label only if there is a placeholder 
 			if (placeholder !== null && placeholder !== '') {
-				label.style.display = 'none';
+				
+				e.setAttribute('data-placeholder', placeholder);
+				if (!settings.customStyles) {
+					e.style.position = "relative";
+					e.style.zIndex = "2";
+					e.style.height = settings.height;
+					label.style.background = settings.focusColor;
+					label.style.height = settings.height;
+					label.style.color = settings.textColor;
+					//label.style.maxHeight = '0';
+					//label.style.transform = 'scale3d(1,0,1)';
+					label.style.transition = (settings.speed) + 's';
+					label.style.transform = "translateY(100%)";
+					// label.style.opacity = '0';
+					// label.style.transition = 'transform ' + (settings.speed) + 's' + ', opacity ' + (settings.speed / 4) +'s';
+				}				
+				
+				e.classList.add(settings.blurClass);
+			}else{
+				//don't apply class taggle / effect for inputs without placeholder
+				e.classList.add('js-formlabel-plugin-inactive');
 			}
 
 		}, parent);
 
 	};
 
-	var prefix = function(rule, value){
-		var domPrefixes = 'webkit moz O ms'.split(' '),
-    		declarations = [],
-    		value = value || 0;
-    	for (var i = 0; i < domPrefixes.length; i++) {
-    		var string = '-' + domPrefixes[i] + '-' + rule + ':' + value + ';';
-			declarations.push(string);
-    	}
+	var revealLabel = function (el){
 
-    	console.log(declarations.join(" "));
+		var label = getLabel(el);
 
-    	
+		el.setAttribute('placeholder', '');
+
+		if  (el.classList.contains(settings.blurClass)) {
+			if (!settings.customStyles) {
+				// hide the label only if there is a placeholder 
+				label.style.transform = "translateY(0)";
+				// label.style.opacity = '1';
+				//label.style.maxHeight = '50px';
+				//label.style.transform = 'scale3d(1,1,1)';
+			}
+		}
+		
+		if (!el.classList.contains('js-formlabel-plugin-inactive')) {
+
+			el.classList.remove(settings.blurClass); 
+			el.classList.add(settings.focusClass); 
+		}
 	};
+
+	var hideLabel = function (el){
+
+		var label = getLabel(el),
+		placeholder =  el.getAttribute('data-placeholder') || '';
+
+		el.setAttribute('placeholder', placeholder);
+
+
+		// hide the label only if there is a placeholder 
+		if (el.classList.contains(settings.focusClass)) {
+			if (!settings.customStyles) {
+				label.style.transform = "translateY(100%)";
+				// label.style.opacity = '0';
+				// label.style.transition = 'transform ' + (settings.speed / 4) + 's' + ', opacity ' + (settings.speed / 2) +'s';
+				//label.style.maxHeight = '0';
+				//label.style.transform = 'scale3d(1,0,1)';
+			}
+			
+		}
+		if (!el.classList.contains('js-formlabel-plugin-inactive')) {
+			el.classList.remove(settings.focusClass);
+			el.classList.add(settings.blurClass);	
+		}
+	};
+
 
 	/**
 	 * Get a label associated with a specific inout
@@ -161,13 +229,28 @@
 	 * Handle events
 	 * @private
 	 */
-	var eventHandler = function (event) {
-		var toggle = event.target;
-		var closest = getClosest(toggle, '[data-some-selector]');
-		if ( closest ) {
-			// run methods
-		}
-		console.log('My plugin has been clicked!');
+	var eventHandlerFocus = function (event) {
+		var el = event.target;
+		// var closest = getClosest(el, settings.selector);
+		// if ( closest ) {
+		// 	// run methods
+		// }
+		
+		revealLabel(el, settings.scope);
+	};
+
+	/**
+	 * Handle events
+	 * @private
+	 */
+	var eventHandlerBlur = function (event) {
+		var el = event.target;
+		// var closest = getClosest(el, settings.selector);
+		// if ( closest ) {
+		// 	// run methods
+		// }
+		
+		hideLabel(el, settings.scope);
 	};
 
 	/**
@@ -230,8 +313,6 @@
 
 		settings.callbackBefore('transform');
 
-		prefix('transform');
-
 		// Add class to HTML element to activate conditional CSS
 		document.documentElement.classList.add( settings.initClass );
 
@@ -240,7 +321,9 @@
 		// @todo Do something...
 
 		// Listen for events
-		document.addEventListener('click', eventHandler, false);
+		document.addEventListener('focus', eventHandlerFocus, true);
+		document.addEventListener('blur', eventHandlerBlur, true);
+		//document.addEventListener('blur', hideLabels(event.target), false);
 
 		settings.callbackAfter();
 

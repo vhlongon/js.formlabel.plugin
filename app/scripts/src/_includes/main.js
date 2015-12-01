@@ -10,9 +10,10 @@
 
     document.addEventListener("DOMContentLoaded", function() {
 
-        var settings = {initClass: 'something-else'},
+        var settings = {},
             plugin = new JSformLabel();
 
+        // use default settings
         plugin.init(settings);
 
     });
