@@ -69,7 +69,7 @@ gulp.task('scripts-deploy', function() {
     //this is where our dev JS scripts are
     return gulp.src(['app/scripts/src/_includes/**/*.js', 'app/scripts/src/**/*.js'])
                 //this is the filename of the compressed version of our JS
-               .pipe(concat('app.js'))
+               .pipe(concat('js.formalabel.plugin.js'))
                //compress :D
                .pipe(uglify())
                //where we will store our finalized, compressed script

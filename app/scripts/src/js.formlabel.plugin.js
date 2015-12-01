@@ -26,12 +26,9 @@
 			},
 			scope: document,
 			selector: 'input[type="text"], input[type="email"]',
-			focusColor: "#0eaee8",
-			blurColor: "#a3a2a0",
+			focusColor: '#0eaee8',
 			textColor: '#ffffff',
-			delay: '0',
 			speed: '.3',
-			easing: 'ease',
 			customStyles: false,
 			height: '25px',
 			focusClass: 'js-formlabel-plugin-focus',
@@ -311,7 +308,7 @@
 		// Merge user options with defaults
 		settings = extend( defaults, options || {} );
 
-		settings.callbackBefore('transform');
+		settings.callbackBefore();
 
 		// Add class to HTML element to activate conditional CSS
 		document.documentElement.classList.add( settings.initClass );
