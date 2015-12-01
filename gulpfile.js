@@ -21,12 +21,13 @@ shell       = require('gulp-shell');
 gulp.task('browserSync', function() {
     browserSync({
         server: {
-            baseDir: "app/"
+            baseDir: "./",
+            index: "app/index.html"
         },
         options: {
             reloadDelay: 250
         },
-        notify: false
+        notify: true
     });
 });
 
@@ -100,7 +101,7 @@ gulp.task('styles', function() {
                 //get our sources via sourceMaps
                 .pipe(sourceMaps.write())
                //where to save our final, compressed css file
-               .pipe(gulp.dest('app/styles'))
+               .pipe(gulp.dest('app/styles/'))
                //notify browserSync to refresh
                .pipe(browserSync.reload({stream: true}));
 });
