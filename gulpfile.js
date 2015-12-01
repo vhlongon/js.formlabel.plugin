@@ -20,9 +20,10 @@ shell       = require('gulp-shell');
 
 gulp.task('browserSync', function() {
     browserSync({
+        port: 7676,
         server: {
             baseDir: "./",
-            index: "app/index.html"
+            index: "app/index.html",
         },
         options: {
             reloadDelay: 250
