@@ -324,7 +324,7 @@
 			// attach event listeners for each element
 			e.addEventListener('focus', eventHandlerFocus, true);
 			e.addEventListener('blur', eventHandlerBlur, true);
-		});
+		},settings.scope);
 
 		settings.callbackAfter();
 
