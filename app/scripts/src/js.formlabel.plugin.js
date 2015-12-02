@@ -318,10 +318,13 @@
 
 		// @todo Do something...
 
-		// Listen for events
-		document.addEventListener('focus', eventHandlerFocus, true);
-		document.addEventListener('blur', eventHandlerBlur, true);
-		//document.addEventListener('blur', hideLabels(event.target), false);
+		//get all elements that match the selector setting
+		var inputElements = document.querySelectorAll(settings.selector);
+		forEach(inputElements, function(e,i){
+			// attach event listeners for each element
+			e.addEventListener('focus', eventHandlerFocus, true);
+			e.addEventListener('blur', eventHandlerBlur, true);
+		});
 
 		settings.callbackAfter();
 
